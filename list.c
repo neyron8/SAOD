@@ -28,7 +28,7 @@ void printLinkedList(const list *head) {
     }
 }
 
-void push(list **head, char* data) { // Адрес списка, а не узла
+void push(list **head, char* data) { // Так как указатель head изменяется, то необходимо передавать указатель на указатель.
     list *tmp = (list*) malloc(sizeof(list)); 
     tmp->field = (char*)malloc(sizeof(char) * strlen(data));
     tmp->field = data;
