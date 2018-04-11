@@ -6,8 +6,16 @@
 int main()
 {
 	bstree * test;
-    test = bstree_create("jacko", 45);
-	printf("%d", test -> value);
+	bstree * find;
+    test = bstree_create_root("TEST");
+	printf("\n");
+	printf("%s\n", test -> key);
+	bstree_add(test,"fdfdfdfd");
+	test = test ->right;
+	printf("%s", test ->key);
+	bstree_add(test,"sh");
+	find = bstree_lookup(test, "sh");
+	printf("%s", find -> key);
 
     return 0;
 }
