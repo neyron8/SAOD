@@ -8,19 +8,32 @@ int main()
 	bstree * test;
 	bstree * find;
     test = bstree_create("jacko", 43);
-	bstree_add(test,"fdfdfdfd", 13);
-	bstree_add(test,"sh", 154);
-	bstree_add(test,"cvxz", 123);
-	bstree_add(test,"cv", 5);
-	bstree_add(test,"arrt", 76);
-	bstree_add(test,"kjh", 1893);
-	bstree_add(test,"jackodfgdfg", 12333);
-	bstree_add(test,"jackodfgdfgccvbv", 1093);
-	bstree_add(test,"dfdfhcvcv", 12313);
-	bstree_add(test,"999999999999", 12313);
-	treeprint(test);
-	find = bstree_max (test);
-	printf("MINIMUM  %s", find -> key);	
-	
-    return 0;
+
+	FILE *file;
+   
+    char str[50];
+    char *estr;
+    file = fopen ("test.txt","r");
+
+    while (1)
+    {
+       estr = fgets (str,sizeof(str),file);
+       bstree_add(test,str,12);
+       if (estr == NULL)
+          {
+             if ( feof (file) != 0)
+             {  
+                 printf ("\nReading file is end\n");
+                 break;
+             } else {
+                   printf ("\nERROR OF READING\n");
+                   break;
+             }
+       }
+      
+    }
+
+   fclose(file);
+   treeprint(test);
+   return 0;
 }
