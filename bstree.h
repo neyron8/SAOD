@@ -23,5 +23,6 @@ bstree *bstree_lookup (bstree *tree, char *key);
 bstree *bstree_min (bstree *tree);
 bstree *bstree_max (bstree *tree); 
 bstree *bstree_create_root(char *key4f);
+void treeprint(bstree *tree);
 
 #endif
