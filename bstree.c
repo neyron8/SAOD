@@ -1,10 +1,10 @@
-#include <stdio.h>  \\\\\\\\\\\\\\\\\\ADD VALUE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#include <stdio.h>  
 #include <stdlib.h>
 #include <string.h>
 #include "bstree.h"
 
 
-bstree *bstree_create_root(char *key4f) 
+bstree *bstree_create(char *key,int value)
 {
 	bstree *element;
 	
@@ -16,37 +16,17 @@ bstree *bstree_create_root(char *key4f)
 
 	} else {
 
-		element -> key = strdup(key4f);;
+		element -> key = strdup(key);;
 		element -> left = NULL;
 		element -> right = NULL;
+		element -> value = value;
 		
 	}
 	return element;
 
 }
 
-bstree *bstree_create(bstree *root,char *key4f) 
-{
-	bstree *element;
-	
-	element = malloc( sizeof (*element) );
-	if (element == NULL) 
-	{ 
-		printf("\nError of creating\n");
-		return -1;
-
-	} else {
-
-		element -> key = strdup(key4f);
-		element -> left = NULL;
-		element -> right = NULL;
-		element -> top = root;
-	}
-	return element;
-
-}
-
-bstree_add(bstree *tree, char *key4f)
+bstree_add(bstree *tree, char *key4f, int value)
 {
 	bstree *parent;
 	bstree *element;
@@ -67,7 +47,7 @@ bstree_add(bstree *tree, char *key4f)
 			return;
 	}
 
-	element = bstree_create(tree, key4f);
+	element = bstree_create(key4f, value);
 	
 	if (strcmp(key4f, parent-> key) < 0) {
 		parent -> left = element;
@@ -77,7 +57,7 @@ bstree_add(bstree *tree, char *key4f)
 	
 }
 
-bstree *bstree_lookup (bstree *tree, char *key) {
+bstree *bstree_lookup(bstree *tree, char *key) {
 
 	bstree *detector;
 	detector = tree;
