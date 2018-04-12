@@ -37,7 +37,7 @@ bstree *bstree_create(bstree *root,char *key4f)
 
 	} else {
 
-		element -> key = strdup(key4f);;
+		element -> key = strdup(key4f);
 		element -> left = NULL;
 		element -> right = NULL;
 		element -> top = root;
@@ -71,10 +71,8 @@ bstree_add(bstree *tree, char *key4f)
 	
 	if (strcmp(key4f, parent-> key) < 0) {
 		parent -> left = element;
-		printf("\nleft\n");
 	} else {
 		parent -> right = element;
-		printf("\nright\n");
 	}	
 	
 }
@@ -89,10 +87,46 @@ bstree *bstree_lookup (bstree *tree, char *key) {
 		}
 		else if (strcmp(key, detector-> key) < 0) {
 			detector = detector -> left;
-		}
-		else if (strcmp(key, detector-> key) > 0) {
+		} else {
+
 			detector = detector -> right;
 		}
 	}
 	return detector;
+}
+
+bstree *bstree_min (bstree *tree) {
+	
+	if(tree== NULL) {
+		return NULL;
+	}
+	
+	while (tree -> left != NULL) {
+		tree = tree -> left;
+	}
+	return tree;
+}
+
+bstree *bstree_max (bstree *tree) {
+	
+	if(tree == NULL) {
+		return NULL;
+	}
+	
+	while (tree -> right != NULL) {
+		tree = tree -> right;
+	}
+	return tree;
+}
+		
+void treeprint(bstree *tree) {
+	
+
+	if (tree!=NULL) {
+ 
+   	    treeprint(tree->left);
+   	 	treeprint(tree->right); 
+     	printf("%s\n", tree -> key); 
+	
+  }
 }
