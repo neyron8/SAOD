@@ -1,93 +1,112 @@
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct {
 
-	int value;
-	int apex;
+  int size;
+  int apex;
 
 } D;
 
-D *init (D *array, int size){
-	int i = 0;
-	for (i; i < size; i++){
-		array[i].value = i;
-		array[i].apex = i;
-	}
-	return array;	
-}
+typedef struct {
 
-void swap(D * array, int i, int j)
-{
-	D tmp;
-    tmp = array[i];
-    array[i] = array[j];
-    array[j] = tmp;
-}
- 
-void heap_it(D *array, int length, int root)
-{
+  int nnodes;
+  int maxsize;
+  struct D **nodes;
+  int metka;
 
-    int left = root * 2 + 1;
-    int right = root * 2 + 2;
-    int biggest = root;
-    
-    if ( left < length && array[root].value < array[left].value )
-        biggest = left;
-    if ( right < length && array[biggest].value < array[right].value )
-        biggest = right;
-    if ( biggest != root ) {
-        swap(array, biggest, root);
-        heap_it(array, length, biggest);
+} heap;
+
+heap *heap_create(int maxsize) {
+  heap *h;
+  h = malloc(sizeof(heap));
+  if (h != NULL) {
+    h->maxsize = maxsize;
+    h->nnodes = 0;
+    h->nodes = malloc(sizeof(int) * (maxsize + 1));
+    if (h->nodes == NULL) {
+      free(h);
+      return NULL;
     }
-}
- 
-void make_heap(D * array, int length)
-{
-
-    int i = length / 2 - 1;
- 
-    for ( ; i >= 0; --i )
-        heap_it(array, length, i);
+  }
+  return h;
 }
 
-void heap_sort(D * array, int elements)
-{
+void heap_swap(D *a, D *b) {
+  D temp;
+  temp = *a;
+  *a = *b;
+  *b = temp;
+}
 
-    int end;
-    
-    make_heap(array, elements);
-    for ( end = elements - 1; end > 0; --end ) {
-        swap(array, 0, end);
-        heap_it(array, end, 0);
+int heap_insert(heap *h, int size, int apex) {
+  if (h->nnodes >= h->maxsize) {
+    return -1;
+  }
+  h->nnodes++;
+  h->nodes[h->nnodes].size = size;
+  h->nodes[h->nnodes].apex = apex;
+
+  for (int i = h->nnodes; i > 1 && h->nodes[i].size < h->nodes[i / 2].size;
+       i = i / 2) {
+
+    heap_swap(&h->nodes[i], &h->nodes[i / 2]);
+  }
+  return 0;
+}
+
+D heap_extract_min(heap *h) {
+  if (h->nnodes == 0) {
+    return NULL;
+  }
+  D minnode = h->nodes[1];
+  h->nodes[1] = h->nodes[h->nnodes];
+  h->nnodes--;
+  heap_heapify(h, 1);
+  return minnode;
+}
+
+int heap_decrease_key(heap *h, int index, int size) {
+  if (h->nodes[index].size < size)
+    return -1;
+  h->nodes[index].size = size;
+  for (; index > 1 && h->nodes[index].size > h->nodes[index / 2].size;
+       index = index / 2) {
+    heap_swap(&h->nodes[index], &h->nodes[index / 2]);
+  }
+  return index;
+}
+
+void heap_heapify(heap *h, int index) {
+  for (;;) {
+    int left = 2 * index;
+    int right = 2 * index + 1;
+    // Find largest key: A[index], A[left] and A[right]
+    int smallest = index;
+    if (left <= h->nnodes && h->nodes[left].size < h->nodes[index].size) {
+      smallest = left;
     }
+    if (right <= h->nnodes && h->nodes[right].size < h->nodes[smallest].size) {
+      smallest = right;
+    }
+    if (smallest == index) {
+      break;
+    }
+
+    heap_swap(&h->nodes[index], &h->nodes[largest]);
+    index = largest;
+  }
 }
 
-void add_to_array(D *array, int versh, int size, int path)
-{
-	int i = 0;
-	for (i = 0; i < size ; i ++){
-		if (array[i].apex == versh) {
-			printf("DSDSD");
-			array[i].value = path;
-		}
-	}
-}
-	
-int main()
-{
-	int i = 0;
-	D *test = malloc (sizeof(D)*5);
-	test = init (test,5);
-	for (i = 0; i < 5; i++){
-		printf("%d\n", test[i].value);
-	}
-	//heap_sort(test, 5);
-	printf("razdel");
-	swap(test, 0,1);
-	for (i = 0; i < 5; i++){
-		printf("%d\n", test[i].value);
-	}
-	return 0;
+int main() {
+  heap *test;
+  test = heap_create(5);
+  test->nnodes = 1;
+  printf("%d", test->nnodes);
+  test->nodes = malloc(sizeof(int) * 5);
+  test->nodes[test->nnodes] = 123;
+  printf("%d\n", test->nodes[test->nnodes]);
+
+  return 0;
 }
