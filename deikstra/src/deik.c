@@ -1,3 +1,29 @@
+
+void heap_swap(heapnode *a, heapnode *b)
+{
+
+	heapnode temp;
+	temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+int heap_insert(heap *h, int size, int apex)
+{
+	if (h->nnodes >= h->maxsize) {
+		return -1;
+	}
+	h->nnodes++;
+	h->nodes[h->nnodes].size = size;
+	h->nodes[h->nnodes].apex = apex;
+
+	for (int i = h->nnodes; i > 1 && h->nodes[i].size < h->nodes[i / 2].size; i = i / 2) {
+		heap_swap(&h->nodes[i], &h->nodes[i / 2]);
+	}
+
+	return 0;
+}
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
