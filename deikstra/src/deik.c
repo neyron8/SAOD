@@ -14,7 +14,7 @@ typedef struct {
 	int nnodes;
 	int maxsize;
 	heapnode *nodes;
-	int metka;
+
 
 } heap;
 
@@ -130,6 +130,9 @@ void deikstra()
 	}
 	int metka[21]; 
 	int path[21];
+	for (i = 1; i < 21; i++) {
+		path[i] = 0;
+	}
 	heap *structure;
 	structure = heap_create(20);
 	for (k = 1; k < 21; k++){
@@ -149,10 +152,9 @@ void deikstra()
         minindex = 90000;
         min = 90000;
 		if ((metka[structure -> nodes[1].apex] == 1) ) {
-			printf("%d\n",structure -> nodes[1].size );
+			printf(" SIZE %d to %d\n",structure -> nodes[1].size,structure -> nodes[1].apex);
 			min = structure -> nodes[1].size;
 			minindex = structure -> nodes[1].apex;
-			path[structure -> nodes[1].apex] = structure -> nodes[1].size;
 			heap_extract_min(structure);
 		}
         
@@ -163,6 +165,7 @@ void deikstra()
 					n = get_num(structure, i);
                     if (temp < structure -> nodes[n].size){
                     	heap_decrease_key(structure,n, temp);
+						path[structure -> nodes[n].apex] = structure -> nodes[minindex].apex;
 					}
                 }
             }
@@ -177,9 +180,9 @@ void deikstra()
 		}
 
 		if (count == 20) {
-			//for (k = 1; k < 21; k++){
-				//printf("%d\n", path[i]);
-			//}
+			for (k = 1; k < 21; k++){
+				printf("%d ", path[k]);
+			}
 			break;
 		}
 
