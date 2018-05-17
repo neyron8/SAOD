@@ -165,7 +165,7 @@ void deikstra()
 					n = get_num(structure, i);
                     if (temp < structure -> nodes[n].size){
                     	heap_decrease_key(structure,n, temp);
-						path[structure -> nodes[n].apex] = structure -> nodes[minindex].apex;
+						path[structure -> nodes[n].apex] = minindex;
 					}
                 }
             }
