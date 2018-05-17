@@ -120,7 +120,7 @@ int heap_decrease_key(heap *h, int index, int size)
 void deikstra()
 {
     FILE *in;
-	int j,k,temp,i,minindex,min,n,count;
+	int j,k,temp,i,minindex,min,n,count,help;
     in = fopen ( "matrix.txt", "rt");
 	int matrix[21][21];
 	for (i = 1; i < 21; i++) {
@@ -165,7 +165,9 @@ void deikstra()
 					n = get_num(structure, i);
                     if (temp < structure -> nodes[n].size){
                     	heap_decrease_key(structure,n, temp);
+						n = get_num(structure, i);
 						path[structure -> nodes[n].apex] = minindex;
+						//printf("Short path from %d  to %d\n", structure -> nodes[n].apex, minindex);
 					}
                 }
             }
@@ -181,7 +183,13 @@ void deikstra()
 
 		if (count == 20) {
 			for (k = 1; k < 21; k++){
-				printf("%d ", path[k]);
+				printf("Path to %d is ", k);
+				help = k;
+				while (path[help] != 0) {
+					printf("%d ", path[help]);
+					help = path[help];
+				}
+				printf("\n");
 			}
 			break;
 		}
